@@ -3,8 +3,13 @@ import { getAllPostIds, getPostData } from '../../lib/posts';
 import Head from 'next/head';
 import Date from '../../components/date';
 import utilStyles from '../../styles/utils.module.css';
+import { useRouter } from 'next/router';
 
 const Post = ({ postData }) => {
+  const route = useRouter();
+  if (route.isFallback) {
+    return <h1>Loading...</h1>
+  }
   return (
     <Layout>
       <Head>
@@ -27,7 +32,7 @@ export const getStaticPaths = async () => {
   const paths = getAllPostIds();
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 };
 export const getStaticProps = async ({ params }) => {
